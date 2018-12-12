@@ -1,31 +1,66 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Vue Page";
+    Layout = null;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<script src="~/Scripts/vue.js"></script>
+<script src="~/Scripts/vue.min.js"></script>
+<script src="~/Scripts/vue-router.js"></script>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Маршрутизация Vue.js</title>
+    <meta charset="utf-8" />
+    <style>
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+        }
+
+        a {
+            padding: 5px;
+        }
+
+            a.router-link-active, li.router-link-active > a {
+                color: red;
+            }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li><router-link to="/" exact>Home</router-link></li>
+            <li><router-link to="/products/1">Product 1</router-link></li>
+            <li><router-link to="/products/2">Product 2</router-link></li>
+        </ul>
+        <router-view></router-view>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+    <script>
+        const NotFound = { template: '<h2>Page Not Found</h2>' }
+        const Home = {
+            template: '<p> ТЕСТ </p>' }
+        const Products = { template: '<h2>Product $route.params.id </h2>' }
+
+        const routes = [
+            { path: '/', component: Home },
+            { path: '/products/:id', component: Products },
+            { path: '*', component: NotFound }
+        ];
+
+        const router = new VueRouter({
+            mode: 'history',
+            routes: routes
+        });
+
+        new Vue({
+            el: '#app',
+            router: router
+        })
+    </script>
+</body>
+</html>
